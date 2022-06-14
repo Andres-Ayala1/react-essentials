@@ -1,4 +1,4 @@
-
+import React, { useState } from "react";
 import './App.css';
 
 function Header(props) {
@@ -20,7 +20,7 @@ const dishObjects = dishes.map((dish,i) => ({id: i, title: dish}));
 function Main(props) {
   return (
     <section>
-      <p>We serve the most delicious food around!</p>
+      <p>We serve the most {props.adjective} food around!</p>
       <img src="https://github.com/Andres-Ayala1.png" 
       alt="Headshot of Andres Ayala" 
       height ={200} />
@@ -40,15 +40,39 @@ function Footer (props) {
     </footer>
   );
 }
+// THESE TWO COMPONENTS HELP US VISUALIZE CONDITIONAL RENDERING
+function SecretComponent() {
+  return <h1>Only authorized users can view this SECRET component</h1>;
+}
 
-
+function RegularComponent() {
+  return <h1>Everyone can view this component</h1>;
+}
+// THIS IS AN EXAMPLE OF OBJECT DESTRUCTURING TO HAVE CLEANER SYNTAX WITHIN COMPONENTS
 function App() {
+  const [emotion, setEmotion] = useState("happy");
   return (
-    <div className="App">
-      <Header name="Cindy"/>
-      <Main food={dishObjects}/>
+    /*<>
+    <div className='App'>
+      <Header name="Dessi"/>
+      <Main food={dishObjects} adjective={"scrumptious"}/>
       <Footer year={new Date().getFullYear()}/>
     </div>
+    {authorized ? <SecretComponent /> : <RegularComponent />}
+    </>
+// ^^ CONDITIONAL RENDERING OF COMPONENTS*/
+  <>
+  <h1>Current emotion is {emotion}.</h1>
+  <button onClick={() => setEmotion("happy")}>
+    Happy
+  </button>
+  <button onClick={() => setEmotion("frusturated")}>
+    Frusturate
+  </button>
+  <button onClick={() => setEmotion("enthusiastic")}>
+    Enthuse
+  </button>
+  </>
   );
 }
 
