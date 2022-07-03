@@ -1,21 +1,28 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
+// https://api.github.com/users/Andres-Ayala1
+
 // useReducer is used to take in the current state and it returns a new state. "return opposite"
-function App() {
-  const [checked, toggle] = useReducer((checked) => !checked, false);
+function App({ login }) {
+  const [data, setData] = useState(null);
 
-  return (
-    <>
-      <input
-        type="checkbox"
-        value={checked}
-        //We are able to abstract this logic to the useReducer hook and allow this syntax to be simpler.
-        onChange={toggle}
-      />
-      <p>{checked ? "checked" : "not checked"}</p>
-    </>
-  );
+  useEffect(() => {
+    fetch(`https://api.github.com/users/${login}`)
+      .then((response) => response.json())
+      .then(setData);
+  }, []);
+
+  if (data) {
+    return (
+      <div>
+        <h1>{data.name}</h1>
+        <p>{data.location}</p>
+        <img alt={data.login} src={data.avatar_url} />
+      </div>
+    );
+  }
+
+  return <div>No User Available</div>;
 }
-
 export default App;
